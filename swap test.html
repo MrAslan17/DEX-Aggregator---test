@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DEX Aggregator Interface</title>
+  <style>
+    body {
+      background-image: url('background_image.jpg'); /* Replace with your background image URL */
+      font-family: Arial, sans-serif;
+      color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .content {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      color: blue;
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 8px;
+      margin-bottom: 15px;
+      width: 200px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: blue;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    #output {
+      margin-top: 20px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+</head>
+<body>
+  <div class="content">
+    <h1>DEX Aggregator Interface</h1>
+    
+    <button id="connectButton">Connect Wallet</button>
+
+    <!-- Rest of the content -->
+    <!-- ... -->
+
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const contractAddress = '0x632825fbb336940bb503a8cfba608f55ebbfb5af'; // Replace with your smart contract pair address
+
+    window.addEventListener('load', async () => {
+      if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+
+        try {
+          // Check if the MetaMask extension is installed
+          await window.ethereum.send('eth_requestAccounts');
+          const accounts = await web3.eth.getAccounts();
+          if (accounts.length > 0) {
+            handleWalletConnected(accounts[0]);
+          }
+        } catch (error) {
+          console.error('User denied account access or MetaMask not installed');
+        }
+      } else {
+        console.error('Non-Ethereum browser detected. Consider installing MetaMask.');
+      }
+    });
+
+    document.getElementById('connectButton').addEventListener('click', async () => {
+      try {
+        // Requesting wallet connection
+        await window.ethereum.send('eth_requestAccounts');
+        const accounts = await web3.eth.getAccounts();
+        if (accounts.length > 0) {
+          handleWalletConnected(accounts[0]);
+        }
+      } catch (error) {
+        console.error('User denied account access or MetaMask not installed');
+      }
+    });
+
+    function handleWalletConnected(account) {
+      console.log('Wallet connected:', account);
+      // You can perform actions after the wallet is connected here
+    }
+
+    // Log the smart contract pair address
+    console.log('Smart contract pair address:', contractAddress);
+    // Use 'contractAddress' wherever you need the contract address in your JavaScript code
+    // const contract = new web3.eth.Contract(contractABI, contractAddress);
+    // ...
+  </script>
+</body>
+</html>
